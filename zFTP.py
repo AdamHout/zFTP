@@ -158,7 +158,7 @@ else:
 
     if sel == 'd' or sel == 'b':
         file = open(dset, "r")
-        print('\nFile Content:\n', file.read())
+        print('\nDataset Content:\n', file.read())
 
 print('Process complete')
 exit(0)
