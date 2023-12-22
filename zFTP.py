@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # zFTP - A tool for remotely running jobs on a z/OS mainframe via FTP
 #
 # Summary:
