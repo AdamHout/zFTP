@@ -71,7 +71,7 @@ PASSWORD = fp.readline().strip()
 fp.close()
 
 # ---Connect to the IBM zXplore mainframe via FTP---
-print(f"Connecting to zXPLORE FTP server {HOSTNAME}")
+print(f"Connecting to Z Xplore FTP server {HOSTNAME}")
 try:
     ftp = ftplib.FTP(HOSTNAME, USERNAME, PASSWORD)
 except OSError as err:
