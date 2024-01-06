@@ -14,6 +14,15 @@
 # to match the user ID in order to retrieve the job log listing. See:
 # https://www.ibm.com/support/pages/ftp-clients-failing-retrieve-jes-output-zos-ftp-server
 # https://www.ibm.com/support/pages/sitelocsite-commands-mvs-ftp
+#
+# ----------------------------------------------------------------------------------------
+#  Date        Author           Description
+# ----------------------------------------------------------------------------------------
+# 12/23        A. Hout          Original source
+# ----------------------------------------------------------------------------------------
+# 01/24        A. Hout          Updated error logic for FTPLIB
+# ----------------------------------------------------------------------------------------
+
 
 # ---Imports---
 import ftplib
@@ -77,6 +86,9 @@ try:
 except OSError as err:
     print(err.strerror)
     exit(err.errno)
+except ftplib.all_errors as err:
+    print(err)
+    exit -1
 
 print(ftp.getwelcome())
 ftp.encoding = "utf-8"
@@ -88,7 +100,7 @@ try:
     nlist = ftp.nlst()
 except ftplib.all_errors as err:
     print(err)
-    exit(err.errno)
+    exit(-1)
 
 for entry in nlist:
     if entry == dset:
@@ -97,7 +109,7 @@ for entry in nlist:
             print(f"Existing dataset {dset} deleted")
         except ftplib.all_errors as err:
             print(err)
-            exit(err.errno)
+            exit(-1)
 
 
 # "JESOWNER=*" allows FTP to retrieve all jobs owned by the submitting userid
@@ -117,7 +129,7 @@ try:
     ftp.retrlines("RETR 'Z34426.JCL(JCL3)'", jescallback)
 except ftplib.all_errors as err:
     print(err)
-    exit(err.errno)
+    exit(-1)
 
 spinner.stop()
 print(f"{jid} completed with {jrc}")
@@ -137,7 +149,7 @@ else:
         ftp.retrlines(f"RETR {dset}", retrcallback)
     except ftplib.all_errors as err:
         print(err)
-        exit(err.errno)
+        exit(-1)
 
     lclfile.close()
     print(f"Dataset {dset} downloaded from server")
